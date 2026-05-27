@@ -1,0 +1,15 @@
+*.o
+*.ali
+*.dSYM
+*.swp
+.DS_Store
+obj/
+bin/
+lib/
+build/
+alire/
+.gnatcheck
+config/
+*.exe
+csrc/stb_impl.o
+vendor/stb/libstb.a

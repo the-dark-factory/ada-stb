@@ -1,0 +1,38 @@
+--  Root GPR for the ada-stb bindings.
+--
+--  Builds the Ada side into a static library (lib/libada_stb.a)
+--  and propagates the linker flags needed to pull in libstb.a
+--  (built separately by scripts/build-stb.sh) plus the macOS
+--  Xcode SDK path.
+
+library project Ada_Stb is
+
+   for Library_Name use "ada_stb";
+   for Library_Kind use "static";
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj";
+   for Library_Dir use "lib";
+
+   --  Propagates to anyone with-ing this project.
+   --
+   --  -syslibroot is needed on macOS because the Alire-shipped
+   --  gcc doesn't know about Xcode's SDK lib path. Linux's cc
+   --  finds the libc family automatically; that branch lights
+   --  up once we test on Linux.
+   package Linker is
+      for Linker_Options use
+        ("-L" & Project'Project_Dir & "vendor/stb",
+         "-lstb",
+         "-Wl,-syslibroot,/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk");
+   end Linker;
+
+   package Compiler is
+      for Default_Switches ("ada") use
+        ("-gnatwa",
+         "-gnaty",
+         "-gnatVa",
+         "-O0",
+         "-g");
+   end Compiler;
+
+end Ada_Stb;

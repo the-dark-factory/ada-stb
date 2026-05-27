@@ -1,0 +1,25 @@
+name = "ada_stb"
+description = "Ada bindings to STB header-only utility headers (Sean Barrett's stb_image, stb_truetype, ...)"
+version = "0.1.0-dev"
+authors = ["The Dark Factory Ltd"]
+maintainers = ["tony.gair@thedarkfactory.co.uk"]
+maintainers-logins = ["tonygair"]
+licenses = "MIT"
+website = "https://github.com/tonygair/ada-stb"
+tags = ["binding", "image", "stb", "stb-image", "stb-truetype"]
+project-files = ["ada_stb.gpr"]
+auto-gpr-with = false
+
+[build-switches]
+"*".style_checks = ["-gnaty"]
+
+#  STB is header-only C. csrc/stb_impl.c instantiates the
+#  STB_*_IMPLEMENTATION bodies; scripts/build-stb.sh compiles
+#  it into vendor/stb/libstb.a. Until that step is wired as
+#  an Alire action, downstream consumers must run
+#  `./scripts/build-stb.sh` once before `alr build`.
+
+[available.'case(os)']
+macos = true
+linux = true
+windows = false  # Untested.

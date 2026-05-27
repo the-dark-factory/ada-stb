@@ -1,0 +1,21 @@
+--  Smoke test for ada-stb.
+--
+--  Builds against the in-tree ada_stb library + the libstb.a
+--  produced by scripts/build-stb.sh. The linker flags propagate
+--  from ada_stb.gpr's Linker_Options; nothing extra needed here.
+
+with "../../ada_stb.gpr";
+
+project Smoke is
+
+   for Source_Dirs use (".");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+   for Main use ("smoke.adb");
+
+   package Compiler is
+      for Default_Switches ("ada") use
+        ("-gnatwa", "-gnatVa", "-O0", "-g");
+   end Compiler;
+
+end Smoke;
